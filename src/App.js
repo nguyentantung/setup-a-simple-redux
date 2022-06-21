@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
-
+import logo from "./logo.svg";
+import "./App.css";
+import "./redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { addStudent } from "./redux/actions";
+import { v4 as uuidv4 } from "uuid";
+import { learnClassSelector } from "./redux/selectors";
 function App() {
+  const dispatch = useDispatch();
+  const handleAddStudent = () => {
+    const student = {
+      id: uuidv4(),
+      name: "nguyen van tao",
+      year: "2000",
+    };
+    dispatch(addStudent(student));
+  };
+  const learnclass = useSelector(learnClassSelector);
+  console.log(learnclass);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>Add student: nguyen van teo, year:2000</p>
+      <button onClick={handleAddStudent}>Add student</button>
+      <ul>
+        {learnclass.map((student) => {
+          return <li key={student.id}>{student.name}</li>;
+        })}
+      </ul>
     </div>
   );
 }
